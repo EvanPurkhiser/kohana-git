@@ -5,17 +5,25 @@ class Kohana_GIT {
 	/**
 	 * Execute a GIT command in the specified working directory
 	 *
-	 * @param  string $command    The GIT command to execute. This is NOT
-	 *                            automagically escaped, be ware!
-	 * @param  string $repository The path to the git repository
+	 * @param  string $command The GIT command to execute. This is NOT
+	 *                         automagically escaped, be ware!
+	 * @param  string $cwd     The working directory to run the command under.
+	 *                         This can be set to NULL to use the directory the
+	 *                         script was run under
 	 * @return string
 	 */
-	public static function execute($command, $repository = APPPATH)
+	public static function execute($command, $cwd = APPPATH)
 	{
 		if ( ! `which git`)
 			throw new Kohana_Exception("The GIT binary must be installed");
 
 		$command = 'git '.$command;
+
+		if ($cwd !== NULL)
+		{
+			// Change directories to the working tree
+			$command = 'cd '.escapeshellarg($cwd).' && '.$command;
+		}
 
 		// Setup the file descriptors specification
 		$descriptsspec = array(
