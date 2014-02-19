@@ -12,7 +12,7 @@ class Kohana_GIT {
 	 *                         script was run under
 	 * @return string
 	 */
-	public static function execute($command, $cwd = APPPATH)
+	public static function execute($command, $stdin = NULL, $cwd = APPPATH)
 	{
 		if ( ! `which git`)
 			throw new Kohana_Exception("The GIT binary must be installed");
@@ -27,6 +27,7 @@ class Kohana_GIT {
 
 		// Setup the file descriptors specification
 		$descriptsspec = array(
+			0 => array('pipe', 'r'),
 			1 => array('pipe', 'w'),
 			2 => array('pipe', 'w'),
 		);
@@ -37,6 +38,13 @@ class Kohana_GIT {
 		// Execute the command
 		$resource = proc_open($command, $descriptsspec, $pipes);
 
+		// Write to the STDIN pipe if we have something to write
+		if ($stdin !== NULL)
+		{
+			fwrite($pipes[0], $stdin);
+			fclose($pipes[0]);
+		}
+
 		// Setup the output
 		$output = array(
 			1 => trim(stream_get_contents($pipes[1])),
@@ -44,7 +52,7 @@ class Kohana_GIT {
 		);
 
 		// Close the pipes
-		array_map('fclose', $pipes);
+		array_map('fclose', array_slice($pipes, 1));
 
 		// Make sure the process didn't exit with a non-zero value
 		if (trim(proc_close($resource)))
