@@ -1,6 +1,7 @@
 {
 	"name": "evanpurkhiser/kohana-git",
 	"description": "A Kohana module used for executing GIT commands within a Kohana application",
+	"license": "MIT",
 	"homepage": "https://github.com/EvanPurkhiser/kohana-git",
 	"keywords": ["kohana", "git", "helper"],
 	"authors": [
@@ -11,5 +12,10 @@
 	],
 	"require": {
 		"php" : ">=5.2.4"
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-3.3/master": "3.3.x"
+		}
 	}
 }
