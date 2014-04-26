@@ -1,0 +1,15 @@
+{
+	"name": "evanpurkhiser/kohana-git",
+	"description": "A Kohana module used for executing GIT commands within a Kohana application",
+	"homepage": "https://github.com/EvanPurkhiser/kohana-git",
+	"keywords": ["kohana", "git", "helper"],
+	"authors": [
+		{
+			"name": "Evan Purkhiser",
+			"email": "evanpurkhiser@gmail.com"
+		}
+	],
+	"require": {
+		"php" : ">=5.2.4"
+	}
+}
